@@ -8,9 +8,10 @@ RUN pip install numpy \
                 seaborn \
                 matplotlib \
                 jupyter \
-                notebook
+                notebook \
+                requests
 
 EXPOSE 8888 
 
 ENTRYPOINT ["jupyter", "notebook", "--ip=0.0.0.0", "--allow-root", \
-"--no-browser"]
+"--no-browser"]-
