@@ -1,0 +1,8 @@
+# Build the Docker image using the specified Dockerfile
+docker build -t jupyter-image -f /home/josue-lui/dev/spotify-case/Dockerfile .
+
+# Run a Docker container in detached mode (--d), remove it when it stops (--rm),
+# give it a name (--name jupyter-server), map port 8888 from the host to the container (-p 8888:8888),
+# and mount a volume for notebook files (-v "$(pwd)/dev/spotify-case/notebooks:/home/notebooks")
+# using the jupyter-image as the base image
+docker run -d --rm --name jupyter-server -p 8888:8888 -v "$(pwd)/dev/spotify-case/notebooks:/home/notebooks" jupyter-image
