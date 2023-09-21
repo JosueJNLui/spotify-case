@@ -1,0 +1,18 @@
+version: '3.4'  # Specifies the version of the Docker Compose file format.
+
+services:
+  jupyter:  # Defines a service named "jupyter."
+    build:
+      context: .  # Sets the build context to the current directory where the Dockerfile is located.
+      dockerfile: Dockerfile  # Specifies the Dockerfile to use for building the image.
+    container_name: jupyter-server  # Assigns the name "jupyter-server" to the container.
+    ports:
+      - "8888:8888"  # Maps port 8888 from the host to port 8888 in the container.
+    volumes:
+      - "./notebooks:/home/notebooks"  # Mounts the "./notebooks" directory on the host to "/home/notebooks" in the container.
+    command:
+      - jupyter  # Specifies the command to run within the container.
+      - notebook  # Runs the Jupyter Notebook server.
+      - "--ip=0.0.0.0"  # Binds the server to all available network interfaces.
+      - "--allow-root"  # Allows running Jupyter as the root user.
+      - "--no-browser"  # Prevents automatic web browser startup.
