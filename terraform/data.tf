@@ -42,6 +42,20 @@ data "aws_iam_policy_document" "this" {
       "s3:PutObject"
     ]
   }
+
+  statement {
+    sid = "AllowGetSSMParameters"
+    effect = "Allow"
+    resources = [
+      "arn:aws:ssm:${local.aws_region}:${local.aws_account_id}:parameter/${local.env}-josu-client-id",
+      "arn:aws:ssm:${local.aws_region}:${local.aws_account_id}:parameter/${local.env}-josu-client-secret",
+      "arn:aws:ssm:${local.aws_region}:${local.aws_account_id}:parameter/spotify-refresh-token"
+    ]
+
+    actions = [
+      "ssm:GetParameters"
+    ]
+  }
 }
 
 data "archive_file" "spotify-artefact" {
@@ -49,3 +63,4 @@ data "archive_file" "spotify-artefact" {
   type        = "zip"
   source_file = "./lambda_handler.py"
 }
+
