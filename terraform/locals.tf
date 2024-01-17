@@ -16,7 +16,7 @@ locals {
 
   scheduler_name  = "recently-played-songs"      # var.scheduler_name
   group_name      = "default"                    # var.group_name
-  cron_rule       = "rate(30 minutes)"       # var.cron_rule
+  cron_rule       = "rate(30 minutes)"           # var.cron_rule
   target_arn      = aws_lambda_function.this.arn # var.target_arn
   target_role_arn = aws_iam_role.this.arn        # var.role_arn
 }
