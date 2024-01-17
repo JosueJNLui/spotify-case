@@ -4,10 +4,10 @@ data "aws_iam_policy_document" "lambda_assume_role" {
   statement {
     actions = ["sts:AssumeRole"]
 
-      principals {
-        type        = "Service"
-        identifiers = ["lambda.amazonaws.com"]
-      }
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com", "scheduler.amazonaws.com"]
+    }
   }
 }
 
@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "this" {
   }
 
   statement {
-    sid = "AllowWritingS3Bucket"
+    sid    = "AllowWritingS3Bucket"
     effect = "Allow"
     resources = [
       "arn:aws:s3:::${local.project_name}-${local.aws_region}-${local.aws_account_id}-${local.env}/",
@@ -44,7 +44,7 @@ data "aws_iam_policy_document" "this" {
   }
 
   statement {
-    sid = "AllowGetSSMParameters"
+    sid    = "AllowGetSSMParameters"
     effect = "Allow"
     resources = [
       "arn:aws:ssm:${local.aws_region}:${local.aws_account_id}:parameter/${local.env}-josu-client-id",
@@ -54,6 +54,20 @@ data "aws_iam_policy_document" "this" {
 
     actions = [
       "ssm:GetParameters"
+    ]
+  }
+
+  statement {
+    sid    = "AllowInvokeLambda"
+    effect = "Allow"
+    resources = [
+      aws_lambda_function.this.arn
+    ]
+
+    actions = [
+      "lambda:InvokeFunction",
+      "lambda:InvokeAsync",
+      "lambda:InvokeFunctionUrl"
     ]
   }
 }
