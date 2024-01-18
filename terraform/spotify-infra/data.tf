@@ -61,7 +61,7 @@ data "aws_iam_policy_document" "this" {
     sid    = "AllowInvokeLambda"
     effect = "Allow"
     resources = [
-      aws_lambda_function.this.arn
+      local.target_arn
     ]
 
     actions = [
@@ -72,7 +72,7 @@ data "aws_iam_policy_document" "this" {
   }
 }
 
-data "archive_file" "spotify-artefact" {
+data "archive_file" "this" {
   output_path = "files/spotify-artefact.zip"
   type        = "zip"
   source_file = "./lambda_handler.py"
