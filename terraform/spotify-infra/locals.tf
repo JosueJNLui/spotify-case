@@ -14,10 +14,11 @@ locals {
   layer_name        = "lambda_layer_${var.project_name}"
   layer_zip_name    = "layer.zip"
 
-  # Locals required on the scheduler resource
   scheduler_name  = "recently-played-songs"
   group_name      = "default"
   cron_rule       = "rate(30 minutes)"
   target_arn      = module.lambda.lambda.arn
   target_role_arn = module.iam.role.arn
+
+  db_name = "spotify_db"
 }
