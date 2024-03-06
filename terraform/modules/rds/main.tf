@@ -1,7 +1,7 @@
-resource "aws_db_subnet_group" "this" {
-  name       = "dbsubnet"
-  subnet_ids = [aws_subnet.private_subnet_a.id, aws_subnet.private_subnet_b.id]
-}
+# resource "aws_db_subnet_group" "this" {
+#   name       = "dbsubnet"
+#   subnet_ids = [aws_subnet.private_subnet_a.id, aws_subnet.private_subnet_b.id]
+# }
 
 resource "random_password" "master_password" {
   length           = 20
@@ -10,21 +10,21 @@ resource "random_password" "master_password" {
 }
 
 resource "aws_secretsmanager_secret" "password" {
-  name                    = "rds-credentials-dev"
+  name                    = "dev-rds-credentials"
   recovery_window_in_days = 0
 }
 
-resource "aws_security_group" "rds_sg" {
-  name   = "rds-sg"
-  vpc_id = aws_vpc.this.id
+# resource "aws_security_group" "rds_sg" {
+#   name   = "rds-sg"
+#   vpc_id = aws_vpc.this.id
 
-  ingress {
-    from_port   = 5432
-    to_port     = 5432
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # ["170.80.153.29/32"]
-  }
-}
+#   ingress {
+#     from_port   = 5432
+#     to_port     = 5432
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"] # ["170.80.153.29/32"]
+#   }
+# }
 
 resource "aws_db_instance" "this" {
   identifier             = local.identifier
@@ -37,10 +37,10 @@ resource "aws_db_instance" "this" {
   username               = local.username
   password               = random_password.master_password.result
   skip_final_snapshot    = local.skip_final_snapshot
-  db_subnet_group_name   = aws_db_subnet_group.this.id
+  db_subnet_group_name   = aws_db_subnet_group.db_subnet_group.id
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
 
-  depends_on = [random_password.master_password, aws_db_subnet_group.this, aws_security_group.rds_sg]
+  depends_on = [random_password.master_password, aws_db_subnet_group.db_subnet_group, aws_security_group.rds_sg]
 }
 
 resource "aws_secretsmanager_secret_version" "password" {
