@@ -7,4 +7,7 @@ locals {
   db_name             = var.db_name
   username            = var.username
   skip_final_snapshot = var.skip_final_snapshot
+
+  vpc_cidr_block            = var.vpc_cidr_block
+  public_subnet_cidr_block  = var.public_subnet_cidr_block
 }

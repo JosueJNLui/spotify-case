@@ -42,3 +42,15 @@ variable "skip_final_snapshot" {
   type        = bool
   default     = true
 }
+
+variable "vpc_cidr_block" {
+  description = "Path to the requirements file"
+  type        = string
+  default     = "10.0.0.0/16"
+}
+
+variable "public_subnet_cidr_block" {
+  description = "Available CIDR blocks for public subnets"
+  type        = string
+  default = "10.0.1.0/24"
+}
